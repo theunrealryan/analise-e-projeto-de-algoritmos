@@ -1,0 +1,73 @@
+"""import time
+
+def busca_iterativa(A, n, x):
+    for i in range(n):
+        if A[i] == x:
+            return True
+    return False
+
+def busca_recursiva(A, inicio, fim, x):
+    if inicio > fim:
+        return False
+    meio = (inicio + fim) // 2
+    if A[meio] == x:
+        return True
+    elif A[meio] > x:
+        return busca_recursiva(A, inicio, meio - 1, x)
+    else:
+        return busca_recursiva(A, meio + 1, fim, x)
+
+# Função para gerar um vetor ordenado de tamanho n
+def gerar_vetor(n):
+    return list(range(1, n+1))
+
+# Função para medir o tempo de execução
+def medir_tempo(funcao, A, x):
+    inicio = time.time()
+    resultado = funcao(A, 0, n-1, x)
+    fim = time.time()
+    return resultado, fim - inicio
+
+# Exemplo de uso
+n_valores = [10, 100]
+x = 5000
+
+for n in n_valores:
+    A = gerar_vetor(n)
+    resultado_iterativo, tempo_iterativo = medir_tempo(busca_iterativa, A, x)
+    resultado_recursivo, tempo_recursivo = medir_tempo(busca_recursiva, A, x)
+    print(f"n={n}, x={x}, Iterativo: {resultado_iterativo} ({tempo_iterativo:.6f}s), Recursivo: {resultado_recursivo} ({tempo_recursivo:.6f}s)")"""
+
+import time
+
+def decide_i(A, n, x):
+    i = 1
+    while i <= n and A[i - 1] != x:  # Ajuste para índice zero
+        i += 1
+    return "SIM" if i <= n else "NÃO"
+
+# Teste com n=10 e n=100
+for n in [10, 100]:
+    A = list(range(1, n + 1))
+    x = n  # Testando o último elemento
+    start_time = time.time()
+    result = decide_i(A, n, x)
+    end_time = time.time()
+    print(f"Iterativo (n={n}): {result}, Tempo: {end_time - start_time:.6f} segundos")
+
+import time
+
+def decide_i(A, n, x):
+    i = 1
+    while i <= n and A[i - 1] != x:  # Ajuste para índice zero
+        i += 1
+    return "SIM" if i <= n else "NÃO"
+
+# Teste com n=10 e n=100
+for n in [10, 100]:
+    A = list(range(1, n + 1))
+    x = n  # Testando o último elemento
+    start_time = time.time()
+    result = decide_i(A, n, x)
+    end_time = time.time()
+    print(f"Iterativo (n={n}): {result}, Tempo: {end_time - start_time:.6f} segundos")
