@@ -1,73 +1,78 @@
-"""import time
+import time
+import matplotlib.pyplot as plt
 
-def busca_iterativa(A, n, x):
-    for i in range(n):
-        if A[i] == x:
-            return True
-    return False
-
-def busca_recursiva(A, inicio, fim, x):
-    if inicio > fim:
-        return False
-    meio = (inicio + fim) // 2
-    if A[meio] == x:
-        return True
-    elif A[meio] > x:
-        return busca_recursiva(A, inicio, meio - 1, x)
+# Algoritmo Iterativo para verificar se x está no vetor A
+def decide_iterativo(A, n, x):
+    i = 1
+    while i <= n and A[i-1] != x:
+        print(f"Iterativo - Comparando A[{i-1}] = {A[i-1]} com x = {x}")
+        i += 1
+    if i > n:
+        print(f"Iterativo - Elemento {x} NÃO encontrado.")
+        return "NÃO"
     else:
-        return busca_recursiva(A, meio + 1, fim, x)
+        print(f"Iterativo - Elemento {x} encontrado.")
+        return "SIM"
 
-# Função para gerar um vetor ordenado de tamanho n
-def gerar_vetor(n):
-    return list(range(1, n+1))
+# Algoritmo Recursivo para verificar se x está no vetor A
+def decide_recursivo(A, n, x):
+    if n == 0:
+        print(f"Recursivo - Chegamos ao caso base, elemento {x} NÃO encontrado.")
+        return "NÃO"
+    elif A[n-1] == x:
+        print(f"Recursivo - Comparando A[{n-1}] = {A[n-1]} com x = {x}. Elemento encontrado.")
+        return "SIM"
+    else:
+        print(f"Recursivo - Comparando A[{n-1}] = {A[n-1]} com x = {x}. Continuando busca.")
+        return decide_recursivo(A, n-1, x)
 
-# Função para medir o tempo de execução
-def medir_tempo(funcao, A, x):
+# Função para medir o tempo de execução de cada algoritmo
+def medir_tempo(algoritmo, A, n, x):
     inicio = time.time()
-    resultado = funcao(A, 0, n-1, x)
+    if algoritmo == 'I':
+        resultado = decide_iterativo(A, n, x)
+    else:
+        resultado = decide_recursivo(A, n, x)
     fim = time.time()
-    return resultado, fim - inicio
+    return fim - inicio, resultado
 
-# Exemplo de uso
-n_valores = [10, 100]
-x = 5000
+# Função para executar os algoritmos com n = 10 e n = 100 e gerar gráficos
+def executar_algoritmos():
+    # Tamanhos do vetor
+    tamanhos = [10, 100]
+    x = int(input("Escolha o valor de x que deseja buscar no vetor (por exemplo, 5): "))
+    
+    # Laços para executar os testes
+    tempos_iterativo = []
+    tempos_recursivo = []
+    
+    for n in tamanhos:
+        A = list(range(1, n+1))  # Vetor A com valores de 1 a n
 
-for n in n_valores:
-    A = gerar_vetor(n)
-    resultado_iterativo, tempo_iterativo = medir_tempo(busca_iterativa, A, x)
-    resultado_recursivo, tempo_recursivo = medir_tempo(busca_recursiva, A, x)
-    print(f"n={n}, x={x}, Iterativo: {resultado_iterativo} ({tempo_iterativo:.6f}s), Recursivo: {resultado_recursivo} ({tempo_recursivo:.6f}s)")"""
+        # Teste com algoritmo iterativo
+        print(f"\nExecutando o algoritmo iterativo com n = {n}...")
+        tempo_iterativo, resultado_iterativo = medir_tempo('I', A, n, x)
+        tempos_iterativo.append(tempo_iterativo)
+        print(f"Resultado Iterativo para n = {n}: {resultado_iterativo}")
+        print(f"Tempo Iterativo: {tempo_iterativo:.6f} segundos\n")
 
-import time
+        # Teste com algoritmo recursivo
+        print(f"Executando o algoritmo recursivo com n = {n}...")
+        tempo_recursivo, resultado_recursivo = medir_tempo('R', A, n, x)
+        tempos_recursivo.append(tempo_recursivo)
+        print(f"Resultado Recursivo para n = {n}: {resultado_recursivo}")
+        print(f"Tempo Recursivo: {tempo_recursivo:.6f} segundos\n")
 
-def decide_i(A, n, x):
-    i = 1
-    while i <= n and A[i - 1] != x:  # Ajuste para índice zero
-        i += 1
-    return "SIM" if i <= n else "NÃO"
+    # Plotagem dos resultados
+    plt.figure(figsize=(8, 6))
+    plt.plot(tamanhos, tempos_iterativo, label='Iterativo', marker='o')
+    plt.plot(tamanhos, tempos_recursivo, label='Recursivo', marker='o')
+    plt.xlabel('Tamanho do Vetor (n)')
+    plt.ylabel('Tempo de Execução (segundos)')
+    plt.title('Comparação de Tempo: Algoritmo Iterativo vs Recursivo')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
-# Teste com n=10 e n=100
-for n in [10, 100]:
-    A = list(range(1, n + 1))
-    x = n  # Testando o último elemento
-    start_time = time.time()
-    result = decide_i(A, n, x)
-    end_time = time.time()
-    print(f"Iterativo (n={n}): {result}, Tempo: {end_time - start_time:.6f} segundos")
-
-import time
-
-def decide_i(A, n, x):
-    i = 1
-    while i <= n and A[i - 1] != x:  # Ajuste para índice zero
-        i += 1
-    return "SIM" if i <= n else "NÃO"
-
-# Teste com n=10 e n=100
-for n in [10, 100]:
-    A = list(range(1, n + 1))
-    x = n  # Testando o último elemento
-    start_time = time.time()
-    result = decide_i(A, n, x)
-    end_time = time.time()
-    print(f"Iterativo (n={n}): {result}, Tempo: {end_time - start_time:.6f} segundos")
+# Execução da função principal
+executar_algoritmos()

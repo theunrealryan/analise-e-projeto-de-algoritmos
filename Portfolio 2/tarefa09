@@ -1,107 +1,65 @@
 import time
 import matplotlib.pyplot as plt
 
-# Algoritmo iterativo
+# Algoritmo Iterativo para encontrar o maior elemento
 def max_iterativo(A, n):
-    print("Valores parciais da busca (iterativo):")
     x = A[0]
     for i in range(1, n):
-        print(f"Comparando {x} com {A[i]}")
         if A[i] > x:
             x = A[i]
+        print(f"Iterativo - Comparando A[{i}] = {A[i]} com max atual = {x}")
     return x
 
-# Algoritmo recursivo
+# Algoritmo Recursivo para encontrar o maior elemento
 def max_recursivo(A, n):
     if n == 1:
+        print(f"Recursivo - Base da recursão, retornando A[0] = {A[0]}")
         return A[0]
     else:
-        x = max_recursivo(A, n-1)
-        print(f"Comparando {x} com {A[n-1]}")
-        if x < A[n-1]:
-            return A[n-1]
-        else:
-            return x
+        max_n_1 = max_recursivo(A, n-1)
+        print(f"Recursivo - Comparando A[{n-1}] = {A[n-1]} com max_n_1 = {max_n_1}")
+        return max(A[n-1], max_n_1)
 
-# Função para medir o tempo de execução de uma única execução
-def executar_algoritmo(opcao_algoritmo, n):
-    A = list(range(1, n+1))  # Vetor com elementos de 1 a n
-    tempos = []
+# Função para medir o tempo e comparar os algoritmos
+def medir_tempo_algoritmo():
+    # Tamanhos do vetor
+    tamanhos = [10, 100]
+    
+    # Laço para executar os testes
+    tempos_iterativo = []
+    tempos_recursivo = []
+    
+    for n in tamanhos:
+        A = list(range(1, n+1))  # Vetor A com valores de 1 a n
 
-    if opcao_algoritmo == 1:
-        # Executar o algoritmo iterativo
-        print(f"\n--- Executando algoritmo iterativo com n={n} ---")
-        start_time = time.time()
-        max_iter = max_iterativo(A, n)
-        end_time = time.time()
-        tempos.append(end_time - start_time)
-        print(f"Máximo (Iterativo) para n={n}: {max_iter}")
-        print(f"Tempo de execução (Iterativo): {end_time - start_time:.6f} segundos\n")
-    elif opcao_algoritmo == 2:
-        # Executar o algoritmo recursivo
-        print(f"\n--- Executando algoritmo recursivo com n={n} ---")
-        start_time = time.time()
-        max_rec = max_recursivo(A, n)
-        end_time = time.time()
-        tempos.append(end_time - start_time)
-        print(f"Máximo (Recursivo) para n={n}: {max_rec}")
-        print(f"Tempo de execução (Recursivo): {end_time - start_time:.6f} segundos\n")
+        # Teste com algoritmo iterativo
+        inicio_iterativo = time.time()
+        max_iterativo(A, n)
+        fim_iterativo = time.time()
+        tempo_iterativo = fim_iterativo - inicio_iterativo
+        tempos_iterativo.append(tempo_iterativo)
 
-    return tempos
+        # Teste com algoritmo recursivo
+        inicio_recursivo = time.time()
+        max_recursivo(A, n)
+        fim_recursivo = time.time()
+        tempo_recursivo = fim_recursivo - inicio_recursivo
+        tempos_recursivo.append(tempo_recursivo)
 
-# Função para plotar os gráficos de tempo de execução
-def plotar_grafico_escolha(opcao_algoritmo, n, tempos):
-    plt.figure(figsize=(10, 6))
+        print(f"\nPara n = {n}:")
+        print(f"Tempo Iterativo: {tempo_iterativo:.6f} segundos")
+        print(f"Tempo Recursivo: {tempo_recursivo:.6f} segundos\n")
 
-    # Definir os rótulos adequados
-    if opcao_algoritmo == 1:
-        label = f'Iterativo (n={n})'
-        estilo_linha = 'o--'
-    else:
-        label = f'Recursivo (n={n})'
-        estilo_linha = 'x-'
-
-    # Valores de n para o gráfico
-    n_values = [n]
-
-    # Plotando o gráfico para a escolha do usuário
-    plt.plot(n_values, tempos, estilo_linha, label=label, marker='o')
-
-    plt.xlabel('Tamanho do vetor (n)')
-    plt.ylabel('Tempo de execução (segundos)')
-    plt.title(f'Tempo de Execução do Algoritmo {label}')
+    # Plotagem dos resultados
+    plt.figure(figsize=(8, 6))
+    plt.plot(tamanhos, tempos_iterativo, label='Iterativo', marker='o')
+    plt.plot(tamanhos, tempos_recursivo, label='Recursivo', marker='o')
+    plt.xlabel('Tamanho do Vetor (n)')
+    plt.ylabel('Tempo de Execução (segundos)')
+    plt.title('Comparação de Tempo: Algoritmo Iterativo vs Recursivo')
     plt.legend()
     plt.grid(True)
     plt.show()
 
-# Função principal para obter a escolha do usuário
-def main():
-    print("Escolha o algoritmo que deseja executar:")
-    print("1 - Algoritmo Iterativo")
-    print("2 - Algoritmo Recursivo")
-    opcao_algoritmo = int(input("Digite a opção (1 ou 2): "))
-
-    print("\nEscolha o tamanho de n:")
-    print("1 - n = 10")
-    print("2 - n = 100")
-    opcao_n = int(input("Digite a opção (1 ou 2): "))
-
-    if opcao_n == 1:
-        n = 10
-    elif opcao_n == 2:
-        n = 100
-    else:
-        print("Opção inválida para n.")
-        return
-
-    if opcao_algoritmo in [1, 2]:
-        # Medir o tempo de execução da escolha do usuário
-        tempos = executar_algoritmo(opcao_algoritmo, n)
-
-        # Plotar o gráfico apenas para a escolha do usuário
-        plotar_grafico_escolha(opcao_algoritmo, n, tempos)
-    else:
-        print("Opção inválida de algoritmo.")
-
-# Executar o programa
-main()
+# Execução da função de medição de tempo
+medir_tempo_algoritmo()

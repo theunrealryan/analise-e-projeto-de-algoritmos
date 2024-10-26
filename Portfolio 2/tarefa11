@@ -1,99 +1,46 @@
-"""import time
-import matplotlib.pyplot as plt
-
-# Implementação Recursiva de F(n)
-def F_recursive(n):
-    if n == 0:
-        return 1  # F(0) = 1
-    elif n == 1:
-        return 10  # F(1) = 10
-    else:
-        return F_recursive(n - 1) + F_recursive(n - 2)
-
-# Implementação com solução de recorrência
-def F_closed(n):
-    if n == 0:
-        return 1  # F(0) = 1
-    elif n == 1:
-        return 10  # F(1) = 10
-    else:
-        a, b = 1, 10  # F(0) e F(1)
-        for i in range(2, n + 1):
-            a, b = b, a + b  # F(n) = F(n-1) + F(n-2)
-        return b
-
-# Função para medir tempos de execução
-def measure_time(algorithm, n):
-    start_time = time.time()
-    result = algorithm(n)
-    end_time = time.time()
-    return result, end_time - start_time
-
-# Listas para armazenar tempos
-n_values = [100, 1000]
-recursive_times = []
-closed_times = []
-
-for n in n_values:
-    # Medindo tempo para a implementação recursiva
-    _, rec_time = measure_time(F_recursive, n)
-    recursive_times.append(rec_time)
-
-    # Medindo tempo para a implementação com solução de recorrência
-    _, closed_time = measure_time(F_closed, n)
-    closed_times.append(closed_time)
-
-# Plotando os resultados
-plt.figure(figsize=(10, 5))
-plt.plot(n_values, recursive_times, label='Recursivo', marker='o')
-plt.plot(n_values, closed_times, label='Solução de Recorrência', marker='x')
-plt.xlabel('n')
-plt.ylabel('Tempo de execução (segundos)')
-plt.title('Comparação de Implementações de F(n)')
-plt.legend()
-plt.grid()
-plt.yscale('log')  # Escala logarítmica para melhor visualização
-plt.show()
-
-# Exibindo resultados parciais
-print("Resultados da execução:")
-for n, rec_time, closed_time in zip(n_values, recursive_times, closed_times):
-    print(f"n={n}: Recursivo = {rec_time:.6f}s, Solução de Recorrência = {closed_time:.6f}s")
-
-# Determinando o método mais rápido
-faster_method = "Solução de Recorrência" if closed_times[1] < recursive_times[1] else "Recursivo"
-print(f"Método mais rápido para n=1000: {faster_method}")"""
-
 import time
 
-def fibonacci_recursivo(n):
-    if n <= 1:
-        return n
+# Implementação recursiva de F(n)
+def F_recursivo(n, F0):
+    if n == 0:
+        return F0
     else:
-        return fibonacci_recursivo(n-1) + fibonacci_recursivo(n-2)
+        return F_recursivo(n-1, F0) + n*(n+1)//2 + n
 
-def fibonacci_iterativo(n):
-    if n <= 1:
-        return n
-    fib_prev, fib_atual = 0, 1
-    for _ in range(2, n+1):
-        fib_prev, fib_atual = fib_atual, fib_prev + fib_atual
-    return fib_atual
+# Implementação da fórmula fechada para F(n)
+def F_solucao_fechada(n, F0):
+    return F0 + (n**2 + 3*n + 2*F0)//2 + n
 
-def medir_tempo(funcao, n):
+# Função para medir o tempo de execução
+def medir_tempo_funcao(func, n, F0):
     inicio = time.time()
-    resultado = funcao(n)
+    resultado = func(n, F0)
     fim = time.time()
-    return resultado, fim - inicio
+    tempo_execucao = fim - inicio
+    return resultado, tempo_execucao
 
-# Valores de n para testar
-n_valores = [10, 15, 20, 25]
+# Função para executar os testes
+def executar_testes():
+    # Definir os valores de n e F0
+    ######################################
+    valores_n = [100, 1000] #REVER ESSA PARTE
+    #####################################
+    valores_F0 = [1, 10]
 
-for n in n_valores:
-    # Fibonacci recursivo
-    resultado_recursivo, tempo_recursivo = medir_tempo(fibonacci_recursivo, n)
-    print(f"Fibonacci recursivo para n={n}: {resultado_recursivo} em {tempo_recursivo:.6f} segundos")
+    # Testar para cada combinação de n e F0
+    for n in valores_n:
+        for F0 in valores_F0:
+            print(f"Testando para n={n}, F0={F0}:")
 
-    # Fibonacci iterativo
-    resultado_iterativo, tempo_iterativo = medir_tempo(fibonacci_iterativo, n)
-    print(f"Fibonacci iterativo para n={n}: {resultado_iterativo} em {tempo_iterativo:.6f} segundos")
+            # Medir o tempo de execução da função recursiva
+            resultado_recursivo, tempo_recursivo = medir_tempo_funcao(F_recursivo, n, F0)
+            print(f"Recursivo -> Resultado: {resultado_recursivo}, Tempo: {tempo_recursivo:.6f} segundos")
+
+            # Medir o tempo de execução da solução fechada
+            resultado_fechada, tempo_fechada = medir_tempo_funcao(F_solucao_fechada, n, F0)
+            print(f"Solução Fechada -> Resultado: {resultado_fechada}, Tempo: {tempo_fechada:.6f} segundos")
+
+            print()
+
+# Executar os testes
+executar_testes()
