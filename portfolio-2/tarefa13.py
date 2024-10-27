@@ -21,7 +21,7 @@ def fibonacci_iterativo(n):
 # Valores de n para testar
 valores_n = [10, 20, 30, 50, 100]
 
-# Medindo tempo de execução para função recursiva (limitado para valores menores)
+# Medindo tempo de execução para função recursiva
 valores_n_recursivo = [10, 20, 30, 50, 100]  # Limitando os valores de n para a função recursiva
 tempos_recursivos = []
 for n in valores_n_recursivo:
@@ -30,7 +30,7 @@ for n in valores_n_recursivo:
     fim = time.time()
     tempos_recursivos.append(fim - inicio)
 
-# Medindo tempo de execução para função iterativa para todos os valores
+# Medindo tempo de execução para função iterativa
 tempos_iterativos = []
 for n in valores_n:
     inicio = time.time()
