@@ -1,4 +1,9 @@
 import time
+import sys
+
+# Aumentar o limite de recursão (para valores maiores que 1000)
+sys.setrecursionlimit(2000)
+
 
 # Implementação recursiva de F(n)
 def F_recursivo(n, F0):
