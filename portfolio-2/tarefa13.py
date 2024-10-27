@@ -1,5 +1,9 @@
 import time
 import pandas as pd
+import sys
+
+# Aumentar o limite de recursão (para valores maiores que 1000)
+sys.setrecursionlimit(10000)
 
 # Função Fibonacci Recursiva
 def fibonacci_recursivo(n):
@@ -18,7 +22,7 @@ def fibonacci_iterativo(n):
 valores_n = [10, 20, 30, 50, 100]
 
 # Medindo tempo de execução para função recursiva (limitado para valores menores)
-valores_n_recursivo = [10, 20, 30]  # Limitando os valores de n para a função recursiva
+valores_n_recursivo = [10, 20, 30, 50, 100]  # Limitando os valores de n para a função recursiva
 tempos_recursivos = []
 for n in valores_n_recursivo:
     inicio = time.time()
@@ -36,12 +40,10 @@ for n in valores_n:
 
 # Criando o DataFrame com os resultados
 df_resultados_atualizados = pd.DataFrame({
-    "n": valores_n_recursivo + [50, 100],
-    "Tempo Recursivo (s)": tempos_recursivos + ["Erro de Recursão", "Erro de Recursão"],
+    "n": valores_n,
+    "Tempo Recursivo (s)": tempos_recursivos,
     "Tempo Iterativo (s)": tempos_iterativos
 })
 
 # Exibindo os resultados no terminal ou Jupyter Notebook
-print(df_resultados_atualizados)  # Para ambientes de terminal
-# ou
-# display(df_resultados_atualizados)  # Para Jupyter Notebook
+print(df_resultados_atualizados)
