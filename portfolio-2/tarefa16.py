@@ -1,4 +1,4 @@
-# Definindo o grafo como um dicionário de dicionários com pesos
+# Definindo o grafo como um dicionário
 grafo = {
     'a': {'b': 16, 'f': 21, 'e': 9},
     'b': {'c': 5, 'd': 6, 'f': 11},
