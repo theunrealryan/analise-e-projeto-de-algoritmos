@@ -1,41 +1,43 @@
-# Grafo representado como um dicionário
+# Definindo o grafo como um dicionário de dicionários com pesos
 grafo = {
     'a': {'b': 16, 'f': 21, 'e': 9},
     'b': {'c': 5, 'd': 6, 'f': 11},
     'c': {},
     'd': {'c': 10},
-    'e': {'d': 14, 'f': 33},
+    'e': {'d': 18, 'f': 33},
     'f': {'b': 11, 'd': 14}
 }
 
-def caminho_guloso(grafo, inicio, destino):
-    atual = inicio
-    caminho = [atual]
-    distancia_total = 0
+def caminho_guloso(grafo, origem, destino):
+    caminho = [origem]
+    custo_total = 0
+    atual = origem
 
-    # Continuar enquanto não chegarmos ao destino
     while atual != destino:
-        # Pegar os vizinhos do nó atual
+        # Seleciona a aresta de menor peso a partir do vértice atual
         vizinhos = grafo[atual]
-        
-        # Se não houver vizinhos, termina (não há caminho disponível)
-        if not vizinhos:
-            return None, float('inf')
-        
-        # Encontrar o vizinho com o menor peso
-        proximo, menor_distancia = min(vizinhos.items(), key=lambda x: x[1])
-        
-        # Adicionar a distância ao total
-        distancia_total += menor_distancia
-        # Adicionar o próximo nó ao caminho
-        caminho.append(proximo)
-        
-        # Avançar para o próximo nó
-        atual = proximo
-    
-    return caminho, distancia_total
+        if not vizinhos:  # Se não há vizinhos, o destino não é alcançável
+            print("Destino não alcançável com este método.")
+            return None
 
-# Testar o algoritmo guloso para o menor caminho de 'a' para 'c'
-caminho, distancia = caminho_guloso(grafo, 'a', 'c')
-print("Caminho encontrado:", caminho)
-print("Distância total:", distancia)
+        # Encontra o vizinho com a menor aresta
+        proximo_vertice = min(vizinhos, key=vizinhos.get)
+        peso = vizinhos[proximo_vertice]
+
+        # Atualiza o caminho e o custo total
+        caminho.append(proximo_vertice)
+        custo_total += peso
+        atual = proximo_vertice
+
+    return caminho, custo_total
+
+# Teste do algoritmo guloso simples de 'a' para 'c'
+origem = 'a'
+destino = 'c'
+caminho, custo_total = caminho_guloso(grafo, origem, destino)
+
+# Exibe o caminho e o custo total
+print("Caminho encontrado pelo algoritmo guloso simples:")
+if caminho:
+    print(" -> ".join(caminho))
+    print(f"Custo total: {custo_total}")
