@@ -43,11 +43,11 @@ grafo.adicionar_vertice(8)  # Vértice 8
 grafo.adicionar_arco(0, 0, "a")  # Arco "a" de 0 para 0
 grafo.adicionar_arco(0, 2, "b")  # Arco "b" de 0 para 2
 grafo.adicionar_arco(2, 6, "c")  # Arco "c" de 2 para 6
-grafo.adicionar_arco(0, 4, "d")  # Arco "d" de 0 para 4
-grafo.adicionar_arco(6, 6, "e")  # Arco "e" de 6 para 6
-grafo.adicionar_arco(6, 8, "f")  # Arco "f" de 6 para 8
+grafo.adicionar_arco(6, 0, "d")  # Arco "d" de 6 para 0
+grafo.adicionar_arco(6, 2, "e")  # Arco "e" de 6 para 2
+grafo.adicionar_arco(6, 4, "f")  # Arco "f" de 6 para 4
 grafo.adicionar_arco(1, 3, "g")  # Arco "g" de 1 para 3
-grafo.adicionar_arco(3, 3, "h")  # Arco "h" de 3 para 3
+grafo.adicionar_arco(1, 3, "h")  # Arco "h" de 1 para 3
 grafo.adicionar_arco(3, 7, "i")  # Arco "i" de 3 para 7
 grafo.adicionar_arco(8, 5, "j")  # Arco "j" de 8 para 5
 
