@@ -27,9 +27,7 @@ def medir_tempo_funcao(func, n, F0):
 # Função para executar os testes
 def executar_testes():
     # Definir os valores de n e F0
-    ######################################
-    valores_n = [100, 1000] #REVER ESSA PARTE
-    #####################################
+    valores_n = [100, 1000] 
     valores_F0 = [1, 10]
 
     # Testar para cada combinação de n e F0
